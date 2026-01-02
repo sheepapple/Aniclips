@@ -1,0 +1,13 @@
+.clips {
+    padding: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.clips-empty p {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: #6767;
+    text-align: center;
+    font-size: 5rem;
+    line-height: 1.6;
+}
