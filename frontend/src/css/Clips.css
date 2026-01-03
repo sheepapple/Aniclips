@@ -11,3 +11,37 @@
     font-size: 5rem;
     line-height: 1.6;
 }
+
+.clips-container {
+    margin-top: 3vh;
+    height: 80vh;
+    width: 45vh;
+    align-self: center;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
+}
+
+.clips-container::-webkit-scrollbar {
+    display: none; 
+}
+
+.clips-content {
+    height: 80vh;
+    width: 45vh;
+    background: red;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+.clips-scroller {
+    height: 300px;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+}
+
+.clips-scroller section {
+    scroll-snap-align: start;
+}
