@@ -9,6 +9,10 @@
 .clip-video {
     width: 100%;
     height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
     object-fit: cover;
     display: block;
 }
@@ -57,7 +61,8 @@
     background: rgba(119, 43, 43, 0.0);
     border: none;
     cursor: pointer;
-    display: flex;      /* For centering emoji/icon */
+    display: flex;
+    /* For centering emoji/icon */
     flex-direction: column;
     font-size: 16px;
     gap: 0.5rem;
@@ -68,7 +73,8 @@
 .like-btn:focus,
 .comment-btn:focus,
 .share-btn:focus {
-    outline: none; /* Removes the default outline */
+    outline: none;
+    /* Removes the default outline */
     /* Add some other stuff here later idk*/
 }
 
@@ -97,4 +103,4 @@
 
 .clip-anime {
     text-align: right;
-  }
+}

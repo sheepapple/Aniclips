@@ -1,5 +1,41 @@
 const root = "../public"
 
+// src/services/appStorage.js
+
+export const getClips = () => {
+    return [
+        {
+            id: 1,
+            youtubeId: '23-ljiG3uyo',  // Extract from youtube.com/watch?v=THIS_PART
+            title: 'Epic Anime Fight',
+            anime: 'Naruto',
+            description: 'Amazing battle scene'
+        },
+        {
+            id: 2,
+            youtubeId: 'pQVlUp6v1cU',
+            title: 'Luffy shit',
+            anime: 'One Piece',
+            description: 'rip brah?'
+        },
+        {
+            id: 3,
+            youtubeId: 'v9rYcFfsruU',
+            title: 'Goj',
+            anime: 'Jujutsu Kaisen',
+            description: 'Hilarious clip'
+        },
+        {
+            id: 4,
+            youtubeId: 'oSBaAqLeA9E',
+            title: "More Goj",
+            anime: "Jujutsu Kaisen",
+            description: "bruh"
+        }
+    ]
+}
+
+/*
 export const getClips = () => {
     return [
         {
@@ -51,3 +87,5 @@ export const getClips = () => {
         }
     ];
 }
+
+*/
