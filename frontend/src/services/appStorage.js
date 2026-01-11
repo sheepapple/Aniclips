@@ -1,7 +1,6 @@
 const root = "../public"
 
-// src/services/appStorage.js
-
+/*
 export const getClips = () => {
     return [
         {
@@ -34,8 +33,8 @@ export const getClips = () => {
         }
     ]
 }
+*/
 
-/*
 export const getClips = () => {
     return [
         {
@@ -87,5 +86,3 @@ export const getClips = () => {
         }
     ];
 }
-
-*/
