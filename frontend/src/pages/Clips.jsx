@@ -20,6 +20,12 @@ function Clips() {
         loadClips();
     }, []);
 
+    // Add no-scroll class to body on mount, remove on unmount
+    useEffect(() => {
+        document.body.classList.add('no-scroll');
+        return () => document.body.classList.remove('no-scroll');
+    }, []);
+
     const loadClips = async (pageToken = '') => {
         setLoading(true);
         try {
@@ -180,7 +186,6 @@ function Clips() {
                             })
                         }
                     </div>
-                    <div className="clips-content">content.</div>
                 </div>
             )}
         </div>

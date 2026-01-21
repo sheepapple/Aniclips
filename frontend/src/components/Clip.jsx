@@ -1,6 +1,14 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import "../css/Clip.css";
 
+import CommentIcon from "../assets/commentBtnSVG.svg";
+import HeartIconFill from "../assets/heartBtnFillSVG.svg";
+import HeartIcon from "../assets/heartBtnSVG.svg";
+import PauseIcon from "../assets/pauseBtnSVG.svg";
+import PlayIcon from "../assets/playBtnSVG.svg";
+import ShareIcon from "../assets/shareBtnSVG.svg";
+
+
 const Clip = forwardRef(function Clip({ clip }, ref) {
     const wrapperRef = useRef(null);
     const playerRef = useRef(null);
@@ -94,23 +102,23 @@ const Clip = forwardRef(function Clip({ clip }, ref) {
             <div className="clip-overlay">
                 <button className="clip-pause-btn" onClick={onPause}>
                     {paused ?
-                        <img src="pauseBtnSVG.svg" alt="Pause" width="80%" height="80%" />
-                        : <img src="playBtnSVG.svg" alt="Play" width="80%" height="80%" />}
+                        <img src={PauseIcon} alt="Pause" width="80%" height="80%" />
+                        : <img src={PlayIcon} alt="Play" width="80%" height="80%" />}
                 </button>
                 <div className="clip-actions">
                     <button className="like-btn" onClick={onActionClick}>
                         {liked ?
-                            <img src="heartBtnFillSVG.svg" alt="Liked" width="80%" height="80%" />
-                            : <img src="heartBtnSVG.svg" alt="Like" width="80%" height="80%" />
+                            <img src={HeartIconFill} alt="Liked" width="80%" height="80%" />
+                            : <img src={HeartIcon} alt="Like" width="80%" height="80%" />
                         }
                         <span className="action-count">72.7K</span>
                     </button>
                     <button className="comment-btn">
-                        <img src="commentBtnSVG.svg" alt="Comment" width="80%" height="80%" />
+                        <img src={CommentIcon} alt="Comment" width="80%" height="80%" />
                         <span className="action-count">6.7K</span>
                     </button>
                     <button className="share-btn">
-                        <img src="shareBtnSVG.svg" alt="Share" width="80%" height="80%" />
+                        <img src={ShareIcon} alt="Share" width="80%" height="80%" />
                         <span className="action-count">2.1K</span>
                     </button>
                 </div>

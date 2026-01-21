@@ -1,7 +1,7 @@
 html, body, #root {
     height: 100%;
     margin: 0;
-    overflow: hidden; /* disable page scroll; keep internal container scrolling */
+    /* Removed overflow: hidden to allow scrolling on other pages */
 }
 
 .dev-info {
@@ -23,6 +23,7 @@ html, body, #root {
     padding: 0; /* remove extra page padding so container centers exactly */
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden; /* Added here to prevent page scroll only on clips page */
 }
 
 .clips-empty p {
@@ -116,3 +117,7 @@ html, body, #root {
 
 /* optional: make debug info more visible */
 .dev-info { z-index: 10000; }
+
+.no-scroll {
+    overflow: hidden;
+}
