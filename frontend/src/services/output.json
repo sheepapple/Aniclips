@@ -1,0 +1,404 @@
+{
+    "data": {
+        "kind": "youtube#searchListResponse",
+        "etag": "5dR3eoRMrzHuqu0jWEgaPJH4ID0",
+        "nextPageToken": "CAoQAA",
+        "regionCode": "US",
+        "pageInfo": {
+            "totalResults": 1000000,
+            "resultsPerPage": 10
+        },
+        "items": [
+            {
+                "kind": "youtube#searchResult",
+                "etag": "UqRpXjAr_jt9PqdY41eCxq66g8o",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "U_vmoSoAEFU"
+                },
+                "snippet": {
+                    "publishedAt": "2025-10-17T16:25:54Z",
+                    "channelId": "UCGfiU7YxsJ3WN7klXBUW4Ug",
+                    "title": "Her eyes reflect people’s fears 😨😢 #anime #shorts",
+                    "description": "",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/U_vmoSoAEFU/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/U_vmoSoAEFU/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/U_vmoSoAEFU/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "Anime Dragon's Den🐉",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2025-10-17T16:25:54Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "szFu4Bufk73yCOcdGDy6aojmzOA",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "3iQRDhiqbPg"
+                },
+                "snippet": {
+                    "publishedAt": "2025-09-02T16:56:12Z",
+                    "channelId": "UCGfiU7YxsJ3WN7klXBUW4Ug",
+                    "title": "Skipping School Gone Wrong 😱🥶 #anime #shorts",
+                    "description": "",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/3iQRDhiqbPg/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/3iQRDhiqbPg/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/3iQRDhiqbPg/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "Anime Dragon's Den🐉",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2025-09-02T16:56:12Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "gGgJMJLBlxbWT5CF0nK3z4kWa_c",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "4DgUbmHM29c"
+                },
+                "snippet": {
+                    "publishedAt": "2025-05-07T09:33:11Z",
+                    "channelId": "UCJJO7_gqRjqH7ZOZjl1EHEQ",
+                    "title": "She&#39;s enjoying ☠️ #anime #animieeditz",
+                    "description": "anime #animeedit #animieeditz #animeshorts#anime #animeshort #viralshort #short#anime #manga #art #otaku #animeart ...",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/4DgUbmHM29c/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/4DgUbmHM29c/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/4DgUbmHM29c/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "NTNOTE",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2025-05-07T09:33:11Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "eRp46AeB_nOI1OYcl5u3pGUv4c4",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "ibeUpC1L9Ug"
+                },
+                "snippet": {
+                    "publishedAt": "2025-08-02T13:01:19Z",
+                    "channelId": "UCGfiU7YxsJ3WN7klXBUW4Ug",
+                    "title": "Killers adopted her… big mistake 😱😂 #anime #shorts",
+                    "description": "",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/ibeUpC1L9Ug/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/ibeUpC1L9Ug/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/ibeUpC1L9Ug/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "Anime Dragon's Den🐉",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2025-08-02T13:01:19Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "HoP1635soEOpX1ymloJIz9FxviU",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "8uqQq7BgN70"
+                },
+                "snippet": {
+                    "publishedAt": "2024-11-29T09:55:47Z",
+                    "channelId": "UC1KxDMaKuqlVfm-C-VyCRpg",
+                    "title": "💀 Power sus #trollface #anime #edit #shorts",
+                    "description": "",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/8uqQq7BgN70/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/8uqQq7BgN70/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/8uqQq7BgN70/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "YourBlossom",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2024-11-29T09:55:47Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "siR4gYDmoBKqNeg0a6evw-n6mhA",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "9j_tt2Q0cRM"
+                },
+                "snippet": {
+                    "publishedAt": "2025-06-17T13:00:16Z",
+                    "channelId": "UCGfiU7YxsJ3WN7klXBUW4Ug",
+                    "title": "He thought it was just an average result 😅 #anime #shorts",
+                    "description": "",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/9j_tt2Q0cRM/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/9j_tt2Q0cRM/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/9j_tt2Q0cRM/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "Anime Dragon's Den🐉",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2025-06-17T13:00:16Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "NJ4hhagDD9tpa6Rz_nz-dWNpRHo",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "SsOgBwIbHuQ"
+                },
+                "snippet": {
+                    "publishedAt": "2023-06-05T01:37:47Z",
+                    "channelId": "UCsE00yX8pmaTosUK-OrSTdw",
+                    "title": "Rikka so cute❤...chuunibyou #chuunibyou #shorts #anime",
+                    "description": "Rikka so Cute❤ chuunibyou demo koi ga shitai #chuunibyou #rikka #anime #shorts @Kuromi2100.",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/SsOgBwIbHuQ/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/SsOgBwIbHuQ/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/SsOgBwIbHuQ/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "Kuro04",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2023-06-05T01:37:47Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "ux5TpaXBXHJw2Tta4vxfSY76HCY",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "eD2Zha4fY3o"
+                },
+                "snippet": {
+                    "publishedAt": "2025-05-13T12:26:44Z",
+                    "channelId": "UCGfiU7YxsJ3WN7klXBUW4Ug",
+                    "title": "🖤Her touch means death…🥺 #anime #shorts #honkaistarrail",
+                    "description": "",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/eD2Zha4fY3o/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/eD2Zha4fY3o/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/eD2Zha4fY3o/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "Anime Dragon's Den🐉",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2025-05-13T12:26:44Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "2pCGQnvqJECdT01hIVKM6mIPpn4",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "mGQLXUXEhwg"
+                },
+                "snippet": {
+                    "publishedAt": "2025-08-15T12:37:47Z",
+                    "channelId": "UCHBKnilOfaaUvzN1YcoaWkg",
+                    "title": "Sarada Saves Boruto 🤯😱 - Naruto Shipudden #shorts #anime #narutoshippuden #vikramsarkar #shortfeed",
+                    "description": "Sarada Saves Boruto - Naruto Shipudden #shorts #anime #narutoshippuden #vikramsarkar #shortfeed Search Terms:- ...",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/mGQLXUXEhwg/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/mGQLXUXEhwg/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/mGQLXUXEhwg/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "Xrisu 4.4",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2025-08-15T12:37:47Z"
+                }
+            },
+            {
+                "kind": "youtube#searchResult",
+                "etag": "clYQmJnxGphtHPXvxbNt_plK7Dg",
+                "id": {
+                    "kind": "youtube#video",
+                    "videoId": "BCPJtydCKys"
+                },
+                "snippet": {
+                    "publishedAt": "2025-09-03T13:02:41Z",
+                    "channelId": "UCGfiU7YxsJ3WN7klXBUW4Ug",
+                    "title": "Everyone thought she was a fraud 👀😲 #anime #shorts",
+                    "description": "",
+                    "thumbnails": {
+                        "default": {
+                            "url": "https://i.ytimg.com/vi/BCPJtydCKys/default.jpg",
+                            "width": 120,
+                            "height": 90
+                        },
+                        "medium": {
+                            "url": "https://i.ytimg.com/vi/BCPJtydCKys/mqdefault.jpg",
+                            "width": 320,
+                            "height": 180
+                        },
+                        "high": {
+                            "url": "https://i.ytimg.com/vi/BCPJtydCKys/hqdefault.jpg",
+                            "width": 480,
+                            "height": 360
+                        }
+                    },
+                    "channelTitle": "Anime Dragon's Den🐉",
+                    "liveBroadcastContent": "none",
+                    "publishTime": "2025-09-03T13:02:41Z"
+                }
+            }
+        ]
+    },
+    "status": 200,
+    "statusText": "",
+    "headers": {
+        "content-encoding": "gzip",
+        "content-length": "1797",
+        "content-type": "application/json; charset=UTF-8",
+        "date": "Tue, 20 Jan 2026 22:14:11 GMT",
+        "server": "scaffolding on HTTPServer2",
+        "vary": "Origin, X-Origin, Referer"
+    },
+    "config": {
+        "transitional": {
+            "silentJSONParsing": true,
+            "forcedJSONParsing": true,
+            "clarifyTimeoutError": false
+        },
+        "adapter": [
+            "xhr",
+            "http",
+            "fetch"
+        ],
+        "transformRequest": [
+            null
+        ],
+        "transformResponse": [
+            null
+        ],
+        "timeout": 0,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1,
+        "env": {},
+        "headers": {
+            "Accept": "application/json, text/plain, */*"
+        },
+        "params": {
+            "part": "snippet",
+            "q": "anime shorts",
+            "type": "video",
+            "videoDuration": "short",
+            "maxResults": 10,
+            "pageToken": "",
+            "key": "AIzaSyBSGoM5wIEjvHoj7_juPTRnuwhG_2UQpmY"
+        },
+        "method": "get",
+        "url": "https://www.googleapis.com/youtube/v3/search",
+        "allowAbsoluteUrls": true
+    },
+    "request": {}
+}
