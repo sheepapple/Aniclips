@@ -1,5 +1,26 @@
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* disable page scroll; keep internal container scrolling */
+}
+
+.dev-info {
+    position: fixed;
+    color: salmon;
+    background-color: rgb(59, 53, 93);
+    width: 25%;
+    height: 50%;
+    top: 25%;
+    left: 0%;
+    z-index: 1000;
+}
+/* center the clips container and fit to window */
 .clips {
-    padding: 2rem;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* remove extra page padding so container centers exactly */
     width: 100%;
     box-sizing: border-box;
 }
@@ -12,8 +33,9 @@
     line-height: 1.6;
 }
 
+/* ensure the scrolling area is exactly the viewport height */
 .clips-container {
-    margin-top: 3vh;
+    margin-top: -16vh; /* adjust for header height */
     height: 80vh;
     width: 45vh;
     align-self: center;
@@ -22,10 +44,13 @@
     scroll-behavior: smooth;
 
     scrollbar-width: none;
+
+    /* center by true midpoint */
+    position: relative; /* ensure pseudo elements align to container */
 }
 
 .clips-container::-webkit-scrollbar {
-    display: none; 
+    display: none;
 }
 
 .clips-content {
@@ -33,7 +58,7 @@
     width: 100%;
 
     /*red background was sticking out on the right*/
-    scroll-snap-align: start;
+    scroll-snap-align: center; /* ensure content snaps to viewport center */
     scroll-snap-stop: always;
 }
 
@@ -46,3 +71,48 @@
 .clips-scroller section {
     scroll-snap-align: start;
 }
+
+/* visualization helpers for IntersectionObserver debugging */
+
+/* center threshold line */
+.clips-container::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: rgba(255, 0, 0, 0.9); /* red center line = 50% threshold */
+    z-index: 999;
+    pointer-events: none;
+    transform: translateY(-1px);
+}
+
+/* shaded threshold band (visualize relaxed threshold region) */
+.clips-container::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40%;
+    height: 20%;
+    background: rgba(255, 0, 0, 0.06);
+    z-index: 998;
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+/* outline each clip wrapper so you can see stacking/height */
+.clips-container .clip {
+    outline: 2px dashed rgba(0, 200, 150, 0.6);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
+}
+
+/* highlight the clip currently centered if you add data-active attribute later */
+.clips-container .clip[data-active="true"] {
+    outline-color: rgba(0, 180, 255, 0.9);
+    box-shadow: 0 0 24px rgba(0,180,255,0.12);
+}
+
+/* optional: make debug info more visible */
+.dev-info { z-index: 10000; }

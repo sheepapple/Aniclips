@@ -1,210 +1,137 @@
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import "../css/Clip.css";
 
-/**
- * Clip Component - "Dumb" component that renders a single YouTube video
- * 
- * Props:
- * - clip: Object containing { youtubeId, title, description, channelTitle }
- * - isActive: Boolean from parent (Clips.jsx) telling us if we should play
- */
-function Clip({ clip, isActive }) {
-    // ========================================================================
-    // REFS
-    // ========================================================================
-    const playerRef = useRef(null);      // YouTube IFrame Player instance
-    const containerRef = useRef(null);   // Div where player will be embedded
+const Clip = forwardRef(function Clip({ clip }, ref) {
+    const wrapperRef = useRef(null);
+    const playerRef = useRef(null);
+    const containerRef = useRef(null);
 
-    // ========================================================================
-    // STATE
-    // ========================================================================
-    const [paused, setPaused] = useState(false);  // User manually paused?
-    const [liked, setLiked] = useState(false);    // User liked this clip?
-    const [playerReady, setPlayerReady] = useState(false); // Is player loaded?
+    const [paused, setPaused] = useState(false);
+    const [liked, setLiked] = useState(false);
+    const [active, setActive] = useState(false);
 
-    // ========================================================================
-    // CREATE YOUTUBE PLAYER - Runs once per clip
-    // ========================================================================
     useEffect(() => {
-        // Make sure YouTube IFrame API is loaded
-        if (!window.YT || !window.YT.Player) {
-            console.error('YouTube IFrame API not loaded');
-            return;
-        }
+        if (!window.YT || !window.YT.Player) return;
 
-        // Create the player instance
         playerRef.current = new window.YT.Player(containerRef.current, {
             videoId: clip.youtubeId,
             playerVars: {
-                autoplay: 0,           // Don't autoplay on load
-                mute: 1,               // Start muted (required for autoplay)
-                controls: 0,           // Hide YouTube controls
-                loop: 1,               // Loop the video
-                playlist: clip.youtubeId,  // Required for looping
-                modestbranding: 1,     // Minimal YouTube branding
-                playsinline: 1,        // Play inline on mobile
-                rel: 0,                // Don't show related videos
-                disablekb: 1           // Disable keyboard controls
-            },
-            events: {
-                // Called when player is fully loaded and ready
-                onReady: (event) => {
-                    console.log(`Player ready for: ${clip.youtubeId}`);
-                    setPlayerReady(true);
-                }
+                autoplay: 0,
+                mute: 0,
+                controls: 0,
+                loop: 1,
+                playlist: clip.youtubeId,
+                modestbranding: 1,
+                playsinline: 1
             }
         });
 
-        // Cleanup: destroy player when component unmounts
         return () => {
-            if (playerRef.current && playerRef.current.destroy) {
-                playerRef.current.destroy();
-            }
+            playerRef.current?.destroy();
         };
     }, [clip.youtubeId]);
 
-    // ========================================================================
-    // RESPOND TO isActive PROP - Play/Pause based on visibility
-    // ========================================================================
     useEffect(() => {
-        // Don't do anything until player is ready
-        if (!playerRef.current || !playerReady) return;
+        if (!playerRef.current) return;
 
-        // Parent (Clips.jsx) tells us we're active → Play
-        if (isActive && !paused) {
-            console.log(`Playing: ${clip.youtubeId}`);
-            playerRef.current.playVideo();
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                // only toggle local "active" flag here — parent will control play/pause
+                setActive(Boolean(entry.isIntersecting && entry.intersectionRatio >= 0.5));
+            },
+            { threshold: 0.5 }
+        );
+
+        if (wrapperRef.current) observer.observe(wrapperRef.current);
+        return () => observer.disconnect();
+    }, []);
+
+    // Expose getters and dom node to parent via ref (parent will call these)
+    useImperativeHandle(ref, () => ({
+        getState: () => ({ paused, liked, active }),
+        getMeta: () => ({ id: clip.id, youtubeId: clip.youtubeId, title: clip.title }),
+        getDom: () => wrapperRef.current,
+        play: () => {
+            if (playerRef.current?.playVideo) {
+                try { playerRef.current.playVideo(); } catch {}
+                setPaused(false);
+                setActive(true);
+            }
+        },
+        pause: () => {
+            if (playerRef.current?.pauseVideo) {
+                try { playerRef.current.pauseVideo(); } catch {}
+                setPaused(true);
+                setActive(false);
+            }
         }
-        // Parent tells us we're NOT active → Pause
-        else if (!isActive) {
-            console.log(`Pausing: ${clip.youtubeId}`);
-            playerRef.current.pauseVideo();
-            // Reset paused state when clip becomes inactive
-            setPaused(false);
-        }
-    }, [isActive, paused, playerReady]);
+    }), [paused, liked, active, clip]);
 
-    // ========================================================================
-    // USER INTERACTION HANDLERS
-    // ========================================================================
-
-    /**
-     * Handle user clicking the pause/play button overlay
-     */
-    function handlePauseToggle(e) {
+    function onPause(e) {
         e.preventDefault();
-        if (!playerRef.current || !playerReady) return;
+        const player = playerRef.current;
+        if (!player) return;
 
-        // Get current player state
-        const state = playerRef.current.getPlayerState();
-
+        const state = player.getPlayerState();
         if (state === window.YT.PlayerState.PLAYING) {
-            // Currently playing → Pause it
-            playerRef.current.pauseVideo();
+            player.pauseVideo();
             setPaused(true);
-            console.log('User paused video');
         } else {
-            // Currently paused → Play it
-            playerRef.current.playVideo();
+            player.playVideo();
             setPaused(false);
-            console.log('User resumed video');
         }
     }
 
-    /**
-     * Handle like button click
-     */
-    function handleLikeClick(e) {
+    function onActionClick(e) {
         e.preventDefault();
-        setLiked(!liked);
-        console.log(liked ? 'Unliked' : 'Liked');
+        if (e.currentTarget.className === "like-btn") {
+            setLiked(v => !v);
+        }
     }
 
-    // ========================================================================
-    // RENDER
-    // ========================================================================
     return (
-        <div className="clip">
-            {/* Overlay with controls */}
+        <div className="clip" ref={wrapperRef}>
             <div className="clip-overlay">
-                {/* Pause/Play button - covers most of the video */}
-                <button className="clip-pause-btn" onClick={handlePauseToggle}>
-                    {paused ? (
-                        <img
-                            src="playBtnSVG.svg"
-                            alt="Play button"
-                            width="80%"
-                            height="80%"
-                        />
-                    ) : (
-                        <img
-                            src="pauseBtnSVG.svg"
-                            alt="Pause button"
-                            width="80%"
-                            height="80%"
-                        />
-                    )}
+                <button className="clip-pause-btn" onClick={onPause}>
+                    {paused ?
+                        <img src="pauseBtnSVG.svg" alt="Pause" width="80%" height="80%" />
+                        : <img src="playBtnSVG.svg" alt="Play" width="80%" height="80%" />}
                 </button>
-
-                {/* Action buttons on the right */}
                 <div className="clip-actions">
-                    {/* Like button */}
-                    <button className="like-btn" onClick={handleLikeClick}>
-                        {liked ? (
-                            <img
-                                src="heartBtnFillSVG.svg"
-                                alt="Liked"
-                                width="80%"
-                                height="80%"
-                            />
-                        ) : (
-                            <img
-                                src="heartBtnSVG.svg"
-                                alt="Like"
-                                width="80%"
-                                height="80%"
-                            />
-                        )}
+                    <button className="like-btn" onClick={onActionClick}>
+                        {liked ?
+                            <img src="heartBtnFillSVG.svg" alt="Liked" width="80%" height="80%" />
+                            : <img src="heartBtnSVG.svg" alt="Like" width="80%" height="80%" />
+                        }
                         <span className="action-count">72.7K</span>
                     </button>
-
-                    {/* Comment button */}
                     <button className="comment-btn">
-                        <img
-                            src="commentBtnSVG.svg"
-                            alt="Comment"
-                            width="80%"
-                            height="80%"
-                        />
+                        <img src="commentBtnSVG.svg" alt="Comment" width="80%" height="80%" />
                         <span className="action-count">6.7K</span>
                     </button>
-
-                    {/* Share button */}
                     <button className="share-btn">
-                        <img
-                            src="shareBtnSVG.svg"
-                            alt="Share"
-                            width="80%"
-                            height="80%"
-                        />
+                        <img src="shareBtnSVG.svg" alt="Share" width="80%" height="80%" />
                         <span className="action-count">2.1K</span>
                     </button>
                 </div>
             </div>
 
-            {/* YouTube player embeds here */}
             <div ref={containerRef} className="clip-video" />
 
-            {/* Video info at the bottom */}
             <div className="clip-info">
                 <div>
-                    <h3>{clip.title || ""}</h3>
+                    <h3>{clip.title ?? ""}</h3>
                     <p>{clip.description ? clip.description.substring(0, 100) : ""}</p>
                 </div>
-                <h4 className="clip-anime">{clip.channelTitle || ""}</h4>
+                <h4 className="clip-anime">{clip.channelTitle ?? ""}</h4>
+            </div>
+            <div className="debug-info">
+                <h3>paused: {paused ? "true" : "false"} </h3>
+                <h3>liked: {liked ? "true" : "false"}</h3>
+                <h3>active: {active ? "true" : "false"}</h3>
             </div>
         </div>
     );
-}
+});
 
 export default Clip;

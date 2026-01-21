@@ -1,8 +1,8 @@
-import "../css/Favorites.css"
-import { useMovieContext } from "../contexts/MovieContext"
-import MovieCard from "../components/MovieCard"
+import MovieCard from "../components/MovieCard";
+import { useMovieContext } from "../contexts/MovieContext";
+import "../css/Favorites.css";
 
-function Favorites({ }) {
+function Favorites() {
     const { favorites } = useMovieContext();
 
     if (favorites) {

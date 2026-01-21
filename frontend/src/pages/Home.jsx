@@ -1,12 +1,10 @@
+import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
-import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
-import { useState, useEffect } from "react";
 import { getPopularAnime, searchAnime } from "../services/api";
 
-import { useCallback } from "react";
 
 import "../css/Home.css";
-function Home({ }) {
+function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [animes, setAnimes] = useState([]);
   /*
