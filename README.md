@@ -4,8 +4,6 @@
 
 Aniclips reimagines anime discovery by combining the engaging scroll experience of modern social media with community-driven content curation. Built as a full-stack learning project to master industry-standard web development tools.
 
-![Aniclips Banner](./assets/banner.png)
-
 ## Inspiration and Idea
 
 The anime community has always thrived on sharing memorable moments - iconic scenes, emotional highlights, and jaw-dropping animation sequences. However, discovering new anime often requires sifting through long-form reviews, trailers, or entire episodes. Aniclips bridges this gap by creating a platform where users can:
@@ -15,20 +13,31 @@ The anime community has always thrived on sharing memorable moments - iconic sce
 - **Connect with like-minded fans** - Through subcommunities organized by genre, studio, or theme
 - **Stay updated on the industry** - Through integrated news boards and trending content
 
-The platform draws inspiration from TikTok's addictive scroll mechanics while tailoring the experience specifically for anime enthusiasts. Whether you're a seasoned otaku or just starting your anime journey, Aniclips helps you find your next favorite show through authentic community recommendations.
+The platform draws inspiration from TikTok's scroll mechanics while tailoring the experience specifically for anime enthusiasts. Whether you're a seasoned anime watcher or just starting your journey, Aniclips helps you find your next favorite show through entertaining clips using authentic community-driven recommendations.
 
 ## Features
 
 **Note: This project is actively under development. Features marked with 🚧 are in progress.**
 
+### Favorites Page (In Development 🚧)
+<img src="frontend/src/assets/showcase/favorites-showcase-1.png" alt="Favorites Page" height="300">
+A page to find all your saved/favorite Animes.
+
+I plan to implement:
+- Interactive hover-activated cards
+- Sorting, Folders, and Share buttons
+- Reccomendations based off of user's saved/favorited animes
+- Filter by genre, studio, release year, and popularity
+
+**Current Status:** Building the backend that allows for more advanced features such as a database to store anime info and user-specific data.
+
 ### Clips Feed (In Development 🚧)
-![Clips Feed](./assets/clips-feed.png)
+<img src="frontend/src/assets/showcase/clips-showcase-1.png" alt="Favorites Page" height="500">
 
 TikTok-style vertical scrolling feed featuring anime clips pulled from YouTube. Users can:
 - Scroll through curated short-form anime content
 - Like, comment, and share favorite clips
 - Discover new series through algorithmic recommendations
-- Filter by genre, studio, release year, and popularity
 
 **Current Status:** Building the core scroll mechanics with YouTube API integration and IntersectionObserver for seamless playback.
 
@@ -85,16 +94,19 @@ Organized communities around:
 ## Screenshots
 
 ### Homepage
-![Homepage](./assets/homepage.png)
+<img src="frontend/src/assets/showcase/home-showcase-1.png" alt="Home Page" height="300">
+
 *Landing page with featured content and navigation*
 
-### Clips Interface
-![Clips UI](./assets/clips-interface.png)
-*Vertical scroll feed with playback controls and engagement options*
+### Favorites Page
+<img src="frontend/src/assets/showcase/favorites-showcase-1.png" alt="Favorites Page" height="300">
 
-### Development Progress
-![Code Structure](./assets/code-structure.png)
-*Current project architecture and component organization*
+*Favorites page to find your saved/favorite anime*
+
+### Clips Interface
+<img src="frontend/src/assets/showcase/clips-showcase-2.png" alt="Clips Page 2" height="500">
+
+*Vertical scroll feed with playback controls and engagement options*
 
 ## Development Journey
 
