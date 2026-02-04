@@ -4,39 +4,41 @@ import "../css/Clips.css";
 import { searchYouTubeShorts } from "../services/youtubeAPI";
 
 function Clips() {
-    const POOL_THRESHOLD = 5;
+    const POOL_THRESHOLD = 2;
     const PRELOAD_COUNT = 2;
     const PRERENDER_COUNT = 1;
 
+    const [apiCalls, setApiCalls] = useState(0);
     const [clipsPool, setClipsPool] = useState([]);
-    const [feed, setFeed] = useState([]); // Now stores full clip objects
+    const [feed, setFeed] = useState([]); // Stores full clip objects
+    const [seenIds, setSeenIds] = useState(new Set()); // Track all seen clips
     const [indexById, setIndexById] = useState({});
     const [activeClipId, setActiveClipId] = useState(null);
-
+    const [nextPageToken, setNextPageToken] = useState('');
     const [loading, setLoading] = useState(true);
     const clipComponentRefs = useRef({});
     const observerRef = useRef(null);
     const containerRef = useRef(null);
 
     useEffect(() => {
-        loadClips();
-    }, []);
-
-    useEffect(() => {
-        document.body.classList.add('no-scroll');
-        return () => document.body.classList.remove('no-scroll');
-    }, []);
-
-    const loadClips = async (pageToken = '') => {
         setLoading(true);
+        loadClips('', seenIds);
+    }, []);
+
+    const loadClips = async (pageToken = '', seenIdsSnapshot = new Set()) => {
+        setApiCalls(prev => prev + 1);
+
         try {
             const { videos, nextPageToken: newToken } = await searchYouTubeShorts(
                 'anime shorts',
                 pageToken
             );
+
+            if (newToken) setNextPageToken(newToken);
+
             setClipsPool(prevPool => {
                 const idsInPool = new Set(prevPool.map(p => p.id));
-                const newItems = videos.filter(v => !idsInPool.has(v.id));
+                const newItems = videos.filter(v => !idsInPool.has(v.id) && !seenIdsSnapshot.has(v.id));
                 return [...prevPool, ...newItems];
             });
         } catch (err) {
@@ -55,6 +57,12 @@ function Clips() {
                 ...prev,
                 [clipObj.id]: newIndex
             }));
+
+            setSeenIds(prev => {
+                const next = new Set(prev);
+                next.add(clipObj.id);
+                return next;
+            });
             
             return newFeed;
         });
@@ -81,12 +89,12 @@ function Clips() {
         }
     }, [clipsPool]);
 
-    // Automatic pool refill when low (DISABLED FOR NOW)
+    // Automatic pool refill when low
     useEffect(() => {
-        //if (clipsPool.length <= POOL_THRESHOLD && !loading) {
-        //    loadClips();
-        //}
-    }, [clipsPool.length, loading]);
+        if (clipsPool.length <= POOL_THRESHOLD && !loading) {
+            loadClips(nextPageToken, seenIds);
+        }
+    }, [clipsPool.length, loading, nextPageToken, seenIds]);
 
     // Maintain PRELOAD_COUNT ahead of active clip
     useEffect(() => {
@@ -131,7 +139,7 @@ function Clips() {
         return clips;
         */
 
-        // For debugging, render all clips
+        // For now, render all clips
         return feed;
     }
 
@@ -162,9 +170,8 @@ function Clips() {
         }, { threshold: [0.25, 0.5, 0.75], root: containerRef.current });
 
         return () => observerRef.current?.disconnect();
-    }, [containerRef.current]);
+    }, [loading, feed.length, containerRef]);
 
-    // Observe rendered clips
     useEffect(() => {
         const obs = observerRef.current;
         if (!obs) return;
@@ -179,7 +186,7 @@ function Clips() {
         });
 
         return () => obs.disconnect();
-    }, [feed, activeClipId, indexById, containerRef.current]);
+    }, [feed, activeClipId, indexById, containerRef]);
 
     // Play/pause clips based on activeClipId
     useEffect(() => {
@@ -200,13 +207,15 @@ function Clips() {
 
     return (
         <div className="clips">
-            <h3 className="dev-info">
-{`Active Clip ID: ${activeClipId}
-Active Index: ${indexById[activeClipId] ?? 'N/A'}
-Feed Length: ${feed.length}
-Pool Length: ${clipsPool.length}
-Rendering: ${getClipsToRender().length} clips`}
-            </h3>
+            <div className="dev-info">
+
+    <h3 className="dev-field">Active Clip ID: {activeClipId}</h3>
+    <h3 className="dev-field">Active Index: {indexById[activeClipId] ?? 'N/A'}</h3>
+    <h3 className="dev-field">Feed Length: {feed.length}</h3>
+    <h3 className="dev-field">Pool Length: {clipsPool.length}</h3>
+    <h3 className="dev-field">Rendering: {getClipsToRender().length} clips</h3>
+    <h3 className="dev-field">API Calls: {apiCalls}</h3>
+            </div>
             {loading && <h1 className="loading" align="center">Loading...</h1>}
             {feed.length === 0 && !loading && (
                 <div className="clips-empty">

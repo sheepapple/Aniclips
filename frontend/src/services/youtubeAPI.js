@@ -1,21 +1,33 @@
-
-import mockData from "./output.json";
+import axios from 'axios';
 
 const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY
 const BASE_URL = "https://www.googleapis.com/youtube/v3"
 
 export const searchYouTubeShorts = async (query, pageToken = '') => {
     try {
+        const response = await axios.get(`${BASE_URL}/search`, {
+            params: {
+                part: 'snippet',
+                q: query,
+                type: 'video',
+                videoDuration: 'short',
+                maxResults: 50,
+                pageToken: pageToken,
+                key: API_KEY
+            }
+        }
+        )
+
         return {
-            videos: mockData.data.items.map(item => ({
+            videos: response.data.items.map(item => ({
                 id: item.id.videoId,
                 youtubeId: item.id.videoId,
                 title: item.snippet.title,
                 description: item.snippet.description,
-                thumbnail: item.snippet.thumbnails.high_url,
+                thumbnail: item.snippet.thumbnails.high.url,
                 channelTitle: item.snippet.channelTitle
             })),
-            nextPageToken: mockData.data.nextPageToken
+            nextPageToken: response.data.nextPageToken
         }
     } catch (error) {
         console.error('YouTube API error:', error)
