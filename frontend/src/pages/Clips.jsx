@@ -5,22 +5,23 @@ import { searchYouTubeShorts } from "../services/youtubeAPI";
 
 function Clips() {
     const POOL_THRESHOLD = 5;
-    const RENDER_WINDOW = 1;
+    const PRELOAD_COUNT = 2;
+    const PRERENDER_COUNT = 1;
 
     const [clipsPool, setClipsPool] = useState([]);
-    const [queue, setQueue] = useState([]);
+    const [feed, setFeed] = useState([]); // Now stores full clip objects
+    const [indexById, setIndexById] = useState({});
     const [activeClipId, setActiveClipId] = useState(null);
 
     const [loading, setLoading] = useState(true);
     const clipComponentRefs = useRef({});
     const observerRef = useRef(null);
-    const containerRef = useRef(null); // <--- add container ref
+    const containerRef = useRef(null);
 
     useEffect(() => {
         loadClips();
     }, []);
 
-    // Add no-scroll class to body on mount, remove on unmount
     useEffect(() => {
         document.body.classList.add('no-scroll');
         return () => document.body.classList.remove('no-scroll');
@@ -33,25 +34,10 @@ function Clips() {
                 'anime shorts',
                 pageToken
             );
-            // Append to pool and to queue (dedupe by id)
             setClipsPool(prevPool => {
                 const idsInPool = new Set(prevPool.map(p => p.id));
                 const newItems = videos.filter(v => !idsInPool.has(v.id));
-                const merged = [...prevPool, ...newItems];
-                // update queue too
-                setQueue(prevQueue => {
-                    const qSet = new Set(prevQueue);
-                    const appended = [...prevQueue];
-                    newItems.forEach(it => {
-                        if (!qSet.has(it.id)) appended.push(it.id);
-                    });
-                    // if no active set yet, set first available
-                    if (!activeClipId && appended.length > 0) {
-                        setActiveClipId(appended[0]);
-                    }
-                    return appended;
-                });
-                return merged;
+                return [...prevPool, ...newItems];
             });
         } catch (err) {
             console.error("loadClips error", err);
@@ -60,12 +46,99 @@ function Clips() {
         }
     };
 
+    const queueClip = (clipObj) => {
+        setFeed(prevFeed => {
+            const newFeed = [...prevFeed, clipObj];
+            const newIndex = newFeed.length - 1;
+            
+            setIndexById(prev => ({
+                ...prev,
+                [clipObj.id]: newIndex
+            }));
+            
+            return newFeed;
+        });
+    };
+
+    // Set initial active clip
+    useEffect(() => {
+        if (!activeClipId && feed.length > 0) {
+            setActiveClipId(feed[0].id);
+        }
+    }, [feed.length, activeClipId]);
+
+    // Initialize feed with PRELOAD_COUNT + 1 clips
+    useEffect(() => {
+        if (feed.length === 0 && clipsPool.length > 0) {
+            const needed = PRELOAD_COUNT + 1;
+            // take needed clips from pool, add them to feed
+            // do this by calling a function called queueClip()
+            // which should internally update indexById alongside feed
+            for (let i = 0; i < needed && i < clipsPool.length; i++) {
+                queueClip(clipsPool[i]);
+            }
+            setClipsPool(prevPool => prevPool.slice(needed));
+        }
+    }, [clipsPool]);
+
+    // Automatic pool refill when low (DISABLED FOR NOW)
+    useEffect(() => {
+        //if (clipsPool.length <= POOL_THRESHOLD && !loading) {
+        //    loadClips();
+        //}
+    }, [clipsPool.length, loading]);
+
+    // Maintain PRELOAD_COUNT ahead of active clip
+    useEffect(() => {
+        if (!activeClipId || feed.length === 0) return;
+        
+        const activeIdx = indexById[activeClipId];
+        if (activeIdx === undefined) return;
+
+        const ahead = feed.length - 1 - activeIdx;
+        if (ahead < PRELOAD_COUNT && clipsPool.length > 0) {
+            //simply call queueClip() to add one clip from pool to feed
+            queueClip(clipsPool[0]);
+            setClipsPool(prevPool => prevPool.slice(1));
+        }
+    }, [activeClipId, feed.length, indexById, clipsPool.length]);
+
+    // Get clips to render (active ± PRERENDER_COUNT)
+    function getClipsToRender() {
+
+        /*
+        //create an empty Clip object
+        const clipEmpty = { id: 'empty', youtubeId: '', title: 'Loading...' };
+
+        // Fill with empty clips but make the id the index to ensure uniqueness
+        const clips = Array.from({ length: feed.length }, (_, i) => ({
+            ...clipEmpty,
+            id: `empty-${i}`
+        }));
+
+        // Fill in only the active ± PRERENDER_COUNT clips
+        if (activeClipId && feed.length > 0) {
+            const activeIdx = indexById[activeClipId];
+            if (activeIdx !== undefined) {
+                const start = Math.max(0, activeIdx - PRERENDER_COUNT);
+                const end = Math.min(feed.length - 1, activeIdx + PRERENDER_COUNT);
+                
+                for (let i = start; i <= end; i++) {
+                    clips[i] = feed[i];
+                }
+            }
+        }
+        return clips;
+        */
+
+        // For debugging, render all clips
+        return feed;
+    }
+
     // IntersectionObserver to detect which clip DOM node becomes active
     useEffect(() => {
-        // wait for container DOM to exist and recreate observer when it changes
         if (!containerRef.current) return;
         observerRef.current = new IntersectionObserver((entries) => {
-            // pick the entry with largest intersectionRatio > 0.5
             let best = null;
             let bestRatio = 0;
             entries.forEach(e => {
@@ -91,40 +164,24 @@ function Clips() {
         return () => observerRef.current?.disconnect();
     }, [containerRef.current]);
 
-    // Observe only rendered clip DOM nodes (prev/active/next)
+    // Observe rendered clips
     useEffect(() => {
         const obs = observerRef.current;
         if (!obs) return;
 
-        // disconnect first
         obs.disconnect();
 
-        const visibleIds = getVisibleIds();
-        visibleIds.forEach(id => {
-            const ref = clipComponentRefs.current[id];
+        const visibleClips = getClipsToRender();
+        visibleClips.forEach(clip => {
+            const ref = clipComponentRefs.current[clip.id];
             const dom = ref?.getDom && ref.getDom();
             if (dom) obs.observe(dom);
         });
 
         return () => obs.disconnect();
-    }, [queue, activeClipId, containerRef.current]); // include containerRef.current
+    }, [feed, activeClipId, indexById, containerRef.current]);
 
-    // Automatic pool refill when low
-    useEffect(() => {
-        const remaining = clipsPool.length - queue.length;
-        if (remaining <= POOL_THRESHOLD && !loading) {
-            loadClips();
-        }
-    }, [clipsPool.length, queue.length, loading]);
-
-    // ensure first clip becomes active when queue is populated
-    useEffect(() => {
-        if (!activeClipId && queue.length > 0) {
-            setActiveClipId(queue[0]);
-        }
-    }, [queue, activeClipId]);
-
-    // when activeClipId changes, tell children to play/pause and mark data-active for CSS
+    // Play/pause clips based on activeClipId
     useEffect(() => {
         const refs = clipComponentRefs.current || {};
         Object.keys(refs).forEach(id => {
@@ -141,50 +198,31 @@ function Clips() {
         });
     }, [activeClipId]);
 
-    function getVisibleIds() {
-        if (!queue || queue.length === 0) return [];
-        const idx = Math.max(0, queue.indexOf(activeClipId));
-        const ids = [];
-        for (let offset = -RENDER_WINDOW; offset <= RENDER_WINDOW; offset++) {
-            const i = idx + offset;
-            if (i >= 0 && i < queue.length) ids.push(queue[i]);
-        }
-        // ensure uniqueness and preserve order
-        return Array.from(new Set(ids));
-    }
-
-    // helper to lookup clip object by id from pool
-    function clipById(id) {
-        return clipsPool.find(c => c.id === id) || null;
-    }
-
     return (
         <div className="clips">
-            <h3 className="dev-info">queue.length: {queue.length}</h3>
-            <h3 className="dev-info">activeClipId: {activeClipId}</h3>
+            <h3 className="dev-info">
+{`Active Clip ID: ${activeClipId}
+Active Index: ${indexById[activeClipId] ?? 'N/A'}
+Feed Length: ${feed.length}
+Pool Length: ${clipsPool.length}
+Rendering: ${getClipsToRender().length} clips`}
+            </h3>
             {loading && <h1 className="loading" align="center">Loading...</h1>}
-            {(!queue || queue.length === 0) && !loading && (
+            {feed.length === 0 && !loading && (
                 <div className="clips-empty">
                     <h3>No clips found.</h3>
                 </div>
             )}
-            {queue.length !== 0 && !loading && (
+            {feed.length > 0 && !loading && (
                 <div className="clips-container" ref={containerRef}>
                     <div className="clips-content">
-                        {
-                            // render only prev/active/next based on queue
-                            getVisibleIds().map(id => {
-                                const clip = clipById(id);
-                                if (!clip) return null;
-                                return (
-                                    <Clip
-                                        key={clip.id}
-                                        clip={clip}
-                                        ref={(r) => { clipComponentRefs.current[clip.id] = r; }}
-                                    />
-                                );
-                            })
-                        }
+                        {getClipsToRender().map(clip => (
+                            <Clip
+                                key={clip.id}
+                                clip={clip}
+                                ref={(r) => { clipComponentRefs.current[clip.id] = r; }}
+                            />
+                        ))}
                     </div>
                 </div>
             )}
